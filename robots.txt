@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://karelskiezori.ru/sitemap.xml
