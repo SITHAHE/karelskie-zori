@@ -48,9 +48,15 @@ export default function Rooms() {
                   imgClassName="group-hover:scale-105 transition-transform duration-[1600ms] ease-out-expo"
                 />
                 <div className="flex flex-1 flex-col p-7">
-                  <span className="self-start rounded-full bg-sand-500/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                    {a.tag}
-                  </span>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="rounded-full bg-sand-500/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                      {a.tag}
+                    </span>
+                    <span className="text-right leading-tight">
+                      <span className="font-serif text-2xl text-sand-300">{a.price}</span>
+                      <span className="block text-xs text-cream/55">{a.priceNote}</span>
+                    </span>
+                  </div>
                   <h3 className="mt-4 font-serif text-2xl text-cream">{a.title}</h3>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-cream/70">{a.text}</p>
                   <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-cream/10 pt-5">
@@ -110,12 +116,13 @@ export default function Rooms() {
         <Reveal>
           <div className="mt-16 flex flex-col items-center justify-between gap-6 rounded-3xl border border-sand-400/30 bg-gradient-to-br from-forest-800 to-forest-900 p-8 sm:flex-row sm:p-10">
             <div>
-              <p className="text-sm uppercase tracking-widest2 text-sand-300">Стоимость проживания</p>
+              <p className="text-sm uppercase tracking-widest2 text-sand-300">Стоимость аренды · дом целиком</p>
               <p className="mt-2 font-serif text-4xl text-cream sm:text-5xl">
-                1000&nbsp;₽ <span className="text-xl font-light text-cream/60">/ место в сутки</span>
+                от 6 000&nbsp;₽ <span className="text-xl font-light text-cream/60">в сутки</span>
               </p>
               <p className="mt-2 text-sm text-cream/60">
-                Аренда дома на любой период. Праздничные даты бронируйте заранее.
+                Большой дом — 9 000&nbsp;₽, малый домик — 6 000&nbsp;₽ в сутки. Аренда на любой
+                период; праздничные даты бронируйте заранее.
               </p>
             </div>
             <a href="#booking" onClick={smooth('booking')} className="btn-primary group whitespace-nowrap">
