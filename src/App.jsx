@@ -15,9 +15,51 @@ export default function App() {
   const [showTop, setShowTop] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > window.innerHeight)
+    const meta = document.querySelector('meta[name="theme-color"]')
+    // Цвет фона каждой секции — под него красим статус-бар (верхнюю полосу).
+    const sections = [
+      ['top', '#243a2f'],       // hero — тёмно-зелёный
+      ['about', '#f4efe6'],     // cream
+      ['rooms', '#1f2421'],     // forest-900
+      ['activities', '#f4efe6'],
+      ['fishing', '#243a2f'],   // тёмный параллакс
+      ['reviews', '#f4efe6'],
+      ['location', '#f3f6f3'],  // forest-50
+      ['booking', '#1f2421'],   // forest-900 (и футер тоже тёмный)
+    ]
+    let current = ''
+    const apply = () => {
+      let color = '#243a2f'
+      for (const [id, c] of sections) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        const r = el.getBoundingClientRect()
+        if (r.top <= 2 && r.bottom > 2) {
+          color = c
+          break
+        }
+      }
+      // у самого низа страницы (футер) — оставляем тёмный
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) {
+        color = '#1f2421'
+      }
+      if (color !== current) {
+        current = color
+        if (meta) meta.setAttribute('content', color)
+        document.body.style.backgroundColor = color
+      }
+    }
+    const onScroll = () => {
+      setShowTop(window.scrollY > window.innerHeight)
+      requestAnimationFrame(apply)
+    }
+    apply()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', apply, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', apply)
+    }
   }, [])
 
   return (
