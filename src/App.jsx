@@ -15,8 +15,25 @@ export default function App() {
   const [showTop, setShowTop] = useState(false)
 
   useEffect(() => {
-    const meta = document.querySelector('meta[name="theme-color"]')
-    // Цвет фона каждой секции — под него красим статус-бар (верхнюю полосу).
+    // iOS Safari игнорирует смену <meta theme-color> через JS и сам подбирает
+    // цвет статус-бара под фон страницы (и делает это плавно). Поэтому на iOS
+    // мы НЕ задаём theme-color — даём Safari самому брать цвет секции.
+    // На Android/desktop Chrome theme-color через JS работает — обновляем его.
+    const isIOS =
+      /iP(hone|ad|od)/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+    let meta = null
+    if (!isIOS) {
+      meta = document.querySelector('meta[name="theme-color"]')
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.setAttribute('name', 'theme-color')
+        document.head.appendChild(meta)
+      }
+    }
+
+    // Цвет фона каждой секции — под него красим верхнюю полосу.
     const sections = [
       ['top', '#243a2f'],       // hero — тёмно-зелёный
       ['about', '#f4efe6'],     // cream
@@ -39,14 +56,16 @@ export default function App() {
           break
         }
       }
-      // у самого низа страницы (футер) — оставляем тёмный
       if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) {
         color = '#1f2421'
       }
       if (color !== current) {
         current = color
-        if (meta) meta.setAttribute('content', color)
+        // Синхронизируем фон html/body — это и источник цвета для авто-подбора
+        // на iOS, и страховка при overscroll.
+        document.documentElement.style.backgroundColor = color
         document.body.style.backgroundColor = color
+        if (meta) meta.setAttribute('content', color)
       }
     }
     const onScroll = () => {

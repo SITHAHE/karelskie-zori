@@ -10,11 +10,15 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Плавная смена цвета фона (источник для авто-цвета статус-бара на iOS) */
+    background-color: #243a2f;
+    transition: background-color 0.45s ease;
   }
 
   body {
     @apply bg-cream text-ink font-sans antialiased;
     overflow-x: hidden;
+    transition: background-color 0.45s ease;
   }
 
   ::selection {
