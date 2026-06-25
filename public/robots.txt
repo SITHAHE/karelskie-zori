@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sithahe.github.io/karelskie-zori/sitemap.xml
+Sitemap: https://karelskiezori.ru/sitemap.xml
